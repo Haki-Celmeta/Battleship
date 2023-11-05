@@ -2,6 +2,280 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scripts/gameboard.js":
+/*!**********************************!*\
+  !*** ./src/scripts/gameboard.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _hashTable_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./hashTable.js */ "./src/scripts/hashTable.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var Gameboard = /*#__PURE__*/function () {
+  function Gameboard(height, width) {
+    _classCallCheck(this, Gameboard);
+    this.height = height;
+    this.width = width;
+    this.board = this._createBoard();
+    this.missedShots = 0;
+    this.hitShots = 0;
+    this.data = new _hashTable_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
+  }
+  _createClass(Gameboard, [{
+    key: "_createBoard",
+    value: function _createBoard() {
+      var array = [];
+      for (var i = 0; i < this.height; i++) {
+        array[i] = [];
+        for (var j = 0; j < this.width; j++) {
+          array[i][j] = undefined;
+        }
+      }
+      return array;
+    }
+  }, {
+    key: "_isHorizontal",
+    value: function _isHorizontal(y1, x1, y2, x2) {
+      if (y1 === y2) return true;
+      if (x1 === x2) return false;
+    }
+  }, {
+    key: "changeHitsForShip",
+    value: function changeHitsForShip(value) {
+      var ship = this.data.getKeyByValue(value);
+      return ship;
+    }
+
+    /**
+     * It takes x and y coordination for attack.
+     * 
+     * @param {number} h - y (height) coordinate
+     * @param {number} w - x (width) coordinate
+     * @returns {boolean} true if ship is hit, false otherwise
+     */
+  }, {
+    key: "receiveAttack",
+    value: function receiveAttack(h, w) {
+      var y = Gameboard.decrementNumber(h);
+      var x = Gameboard.decrementNumber(w);
+      if (y < this.height && x < this.width && y >= 0 && x >= 0) {
+        if (this.board[y][x] === 'X' || this.board[y][x] === 'H') return false;
+        if (typeof this.board[y][x] === 'number') {
+          console.log(this.changeHitsForShip(this.board[y][x]));
+          this.board[y][x] = 'H';
+          this.hitShots++;
+          return true;
+        }
+        if (this.board[y][x] === undefined) {
+          this.board[y][x] = 'X';
+          this.missedShots++;
+          return true;
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Decrement a number by 1
+     * 
+     * @param {number} number 
+     * @returns {number} 
+     */
+  }, {
+    key: "isCoordinationCorrect",
+    value: function isCoordinationCorrect(y1, x1, y2, x2) {
+      var isCorrect = y1 < this.height && x1 < this.width && y1 >= 0 && x1 >= 0 && y2 < this.height && x2 < this.width && y2 >= 0 && x2 >= 0;
+      return isCorrect;
+    }
+  }, {
+    key: "isOverriding",
+    value: function isOverriding(y1, x1, y2, x2) {
+      var horizontal = this._isHorizontal(y1, x1, y2, x2);
+      if (horizontal) {
+        for (var col = x1; col <= x2; col++) {
+          if (this.board[y1][col] !== undefined) return true;
+        }
+      } else if (!horizontal) {
+        for (var row = y1; row <= y2; row++) {
+          if (this.board[row][x1] !== undefined) return true;
+        }
+      }
+      return false;
+    }
+  }, {
+    key: "shipLocation",
+    value: function shipLocation(ship, h1, w1, h2, w2) {
+      var y1 = Gameboard.decrementNumber(h1);
+      var x1 = Gameboard.decrementNumber(w1);
+      var y2 = Gameboard.decrementNumber(h2);
+      var x2 = Gameboard.decrementNumber(w2);
+      if (!this.isCoordinationCorrect(y1, x1, y2, x2)) return false;
+      if (this.isOverriding(y1, x1, y2, x2)) return false;
+      this.data.setShipId(ship);
+      var horizontal = this._isHorizontal(y1, x1, y2, x2);
+      if (horizontal) {
+        for (var col = x1; col <= x2; col++) {
+          this.board[y1][col] = this.data.getShipId(ship);
+        }
+      } else if (!horizontal) {
+        for (var row = y1; row <= y2; row++) {
+          this.board[row][x1] = this.data.getShipId(ship);
+        }
+      }
+      return true;
+    }
+  }], [{
+    key: "decrementNumber",
+    value: function decrementNumber(number) {
+      return number -= 1;
+    }
+  }]);
+  return Gameboard;
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Gameboard);
+
+/***/ }),
+
+/***/ "./src/scripts/hashTable.js":
+/*!**********************************!*\
+  !*** ./src/scripts/hashTable.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var HashTable = /*#__PURE__*/function () {
+  function HashTable() {
+    _classCallCheck(this, HashTable);
+    this.map = new Map();
+    this.id = 1;
+  }
+
+  /**Given a ship, it sets an id for that ship
+   * 
+   * @param {Ship} ship 
+   */
+  _createClass(HashTable, [{
+    key: "setShipId",
+    value: function setShipId(ship) {
+      this.map.set(ship, this.id++);
+    }
+
+    /**Gets the id of the ship
+     * 
+     * @param {Ship} ship 
+     */
+  }, {
+    key: "getShipId",
+    value: function getShipId(ship) {
+      return this.map.get(ship);
+    }
+  }, {
+    key: "getKeyByValue",
+    value: function getKeyByValue(searchValue) {
+      var _iterator = _createForOfIteratorHelper(this.map.entries()),
+        _step;
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var _step$value = _slicedToArray(_step.value, 2),
+            key = _step$value[0],
+            value = _step$value[1];
+          if (value === searchValue) return key;
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+      return null;
+    }
+  }]);
+  return HashTable;
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (HashTable);
+
+/***/ }),
+
+/***/ "./src/scripts/ship.js":
+/*!*****************************!*\
+  !*** ./src/scripts/ship.js ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _gameboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard */ "./src/scripts/gameboard.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+var Ship = /*#__PURE__*/function () {
+  function Ship(length) {
+    _classCallCheck(this, Ship);
+    this.length = length;
+    this.hits = 0;
+  }
+
+  /**
+   * Increments the hits that ship has taken
+   * 
+   * @returns {boolean}
+   */
+  _createClass(Ship, [{
+    key: "hit",
+    value: function hit() {
+      this.hits++;
+      return true;
+    }
+
+    /**
+     * Check if damage hit of ship is equal to its length,
+     * return true if equal false otherwise
+     * 
+     * @returns {boolean}
+     */
+  }, {
+    key: "isSunk",
+    value: function isSunk() {
+      if (this.hits === this.length) return true;
+      return false;
+    }
+  }]);
+  return Ship;
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Ship);
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss":
 /*!***********************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/styles/main.scss ***!
@@ -551,26 +825,29 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
+/* harmony import */ var _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/ship.js */ "./src/scripts/ship.js");
+/* harmony import */ var _scripts_gameboard_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scripts/gameboard.js */ "./src/scripts/gameboard.js");
 
-console.log(123);
 
-/**
- * Function get an array and returns the sum of all
- * the elements inside that array
- *
- * @param {object} array - array argument
- * @returns {number} - The sum
- */
 
-function sum(array) {
-  var total = array.reduce(function (accumulator, currentValue) {
-    accumulator + currentValue;
-  }, 0);
-  return total;
-}
-sum([1, 2, 3, 4, 6]);
+var board = new _scripts_gameboard_js__WEBPACK_IMPORTED_MODULE_2__["default"](6, 6);
+var ship1 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](5);
+var ship2 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](4);
+var ship3 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](3);
+var ship4 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](4);
+var ship5 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](2);
+var ship6 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](3);
+board.shipLocation(ship1, 1, 1, 1, 5);
+board.shipLocation(ship2, 1, 6, 4, 6);
+board.shipLocation(ship3, 4, 2, 4, 4);
+board.shipLocation(ship4, 1, 1, 1, 4);
+board.receiveAttack(1, 1);
+board.receiveAttack(1, 2);
+board.receiveAttack(1, 3);
+board.receiveAttack(1, 4);
+console.log(board.receiveAttack(1, 5));
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundlecb1d329e8f8a320d9e2a.js.map
+//# sourceMappingURL=bundlece08f47f7e2c8c9cfd3e.js.map
