@@ -103,6 +103,7 @@ class Gameboard {
     const maxX = Gameboard.max([x1, x2]);
     if (!this.isCoordinationCorrect(y1, x1, y2, x2)) return true;
 
+    console.log(y1, x1, y2, x2);
     if (horizontal) {
       for (let col = minX; col <= maxX; col++) {
         if (!this.isCellUndefined(this.board[minY][col])) return true;
@@ -209,15 +210,20 @@ class Gameboard {
     if (!this.isCoordinationCorrect(y1, x1, y2, x2)) return false;
     if (this.isOverriding(y1, x1, y2, x2)) return false;
 
+    const minY = Gameboard.min([y1, y2]);
+    const maxY = Gameboard.max([y1, y2]);
+    const minX = Gameboard.min([x1, x2]);
+    const maxX = Gameboard.max([x1, x2]);
+
     this.data.setShipId(ship);
     const horizontal = this._isHorizontal(y1, x1, y2, x2);
 
     if (horizontal) {
-      for (let col = x1; col <= x2; col++) {
+      for (let col = minX; col <= maxX; col++) {
         this.board[y1][col] = this.data.getShipId(ship);
       }
     } else if (!horizontal) {
-      for (let row = y1; row <= y2; row++) {
+      for (let row = minY; row <= maxY; row++) {
         this.board[row][x1] = this.data.getShipId(ship);
       }
     }

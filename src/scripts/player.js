@@ -82,10 +82,10 @@ class Player {
     const [y, x] = this.randomCoordination(this.computerBoard);
     const isHorizontal = this.randomBoolean();
 
-    const xRight = x + ship.length;
-    const xLeft = x - ship.length;
-    const yDown = y + ship.length;
-    const yUp = y - ship.length;
+    const xRight = x + (ship.length - 1);
+    const xLeft = x - (ship.length - 1);
+    const yDown = y + (ship.length - 1);
+    const yUp = y - (ship.length - 1);
 
     if (isHorizontal) {
       if (this.coordinationCheck(y, x, y, xRight)) return [y + 1, x + 1, y + 1, xRight + 1];
@@ -102,9 +102,11 @@ class Player {
    * Creates and places the ships on the gameboard randomly
    */
   computerShips() {
-    const ship1 = new Ship(5);
-    const ship2 = new Ship(4);
-    const ship3 = new Ship(3);
+    const ship1 = new Ship(6);
+    const ship2 = new Ship(5);
+    const ship3 = new Ship(4);
+    const ship4 = new Ship(3);
+    const ship5 = new Ship(2);
 
     const [h1Ship1, w1Ship1, h2Ship1, w2Ship1] = this.randomShipCoordinates(ship1);
     this.computerBoard.shipLocation(ship1, h1Ship1, w1Ship1, h2Ship1, w2Ship1);
@@ -114,6 +116,12 @@ class Player {
 
     const [h1Ship3, w1Ship3, h2Ship3, w2Ship3] = this.randomShipCoordinates(ship3);
     this.computerBoard.shipLocation(ship3, h1Ship3, w1Ship3, h2Ship3, w2Ship3);
+
+    const [h1Ship4, w1Ship4, h2Ship4, w2Ship4] = this.randomShipCoordinates(ship4);
+    this.computerBoard.shipLocation(ship4, h1Ship4, w1Ship4, h2Ship4, w2Ship4);
+
+    const [h1Ship5, w1Ship5, h2Ship5, w2Ship5] = this.randomShipCoordinates(ship5);
+    this.computerBoard.shipLocation(ship5, h1Ship5, w1Ship5, h2Ship5, w2Ship5);
 
     return this.computerBoard;
   }
