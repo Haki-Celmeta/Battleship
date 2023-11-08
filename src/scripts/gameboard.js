@@ -86,7 +86,8 @@ class Gameboard {
   }
 
   /**
-   * Check if given ship coordinates override another ship coordinates. True if they override, false if not.
+   * Check if given ship coordinates override another ship coordinates. 
+   * True if they override or coordinations are not inside gameboard, false if not.
    * 
    * @param {number} y1  
    * @param {number} x1 
@@ -96,13 +97,19 @@ class Gameboard {
    */
   isOverriding(y1, x1, y2, x2) {
     const horizontal = this._isHorizontal(y1, x1, y2, x2);
+    const minY = Gameboard.min([y1, y2]);
+    const maxY = Gameboard.max([y1, y2]);
+    const minX = Gameboard.min([x1, x2]);
+    const maxX = Gameboard.max([x1, x2]);
+    if (!this.isCoordinationCorrect(y1, x1, y2, x2)) return true;
+
     if (horizontal) {
-      for (let col = x1; col <= x2; col++) {
-        if (!this.isCellUndefined(this.board[y1][col])) return true;
+      for (let col = minX; col <= maxX; col++) {
+        if (!this.isCellUndefined(this.board[minY][col])) return true;
       }
     } else if (!horizontal) {
-      for (let row = y1; row <= y2; row++) {
-        if (!this.isCellUndefined(this.board[row][x1])) return true;
+      for (let row = minY; row <= maxY; row++) {
+        if (!this.isCellUndefined(this.board[row][minX])) return true;
       }
     }
 
@@ -240,7 +247,35 @@ class Gameboard {
    * @returns {number} 
    */
   static decrementNumber(number) {
-    return number -= 1;
+    return number - 1;
+  }
+
+  /**
+   * Increment the given number by 1.
+   * 
+   * @param {number} number 
+   * @returns {number}
+   */
+  static incrementNumber(number) {
+    return number + 1;
+  }
+
+  /**
+   * Return the maximum of a given array
+   * 
+   * @param {array} array 
+   */
+  static max(array) {
+    return Math.max(...array);
+  }
+
+  /**
+   * Return the minimum of a given array
+   * 
+   * @param {array} array 
+   */
+  static min(array) {
+    return Math.min(...array);
   }
 }
 

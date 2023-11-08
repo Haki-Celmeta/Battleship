@@ -2,6 +2,99 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scripts/Player.js":
+/*!*******************************!*\
+  !*** ./src/scripts/Player.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _gameboard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./gameboard */ "./src/scripts/gameboard.js");
+/* harmony import */ var _ship__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ship */ "./src/scripts/ship.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+
+
+
+/**
+ * Creates computer player with ships placed randomly.
+ */
+var Player = /*#__PURE__*/function () {
+  function Player(height, width) {
+    _classCallCheck(this, Player);
+    this.computerBoard = new _gameboard__WEBPACK_IMPORTED_MODULE_0__["default"](height, width);
+  }
+
+  /**
+   * Return random number from 0 to a given maximum(length).
+   * 
+   * @param {number} length 
+   * @returns {number}
+   */
+  _createClass(Player, [{
+    key: "random",
+    value: function random(length) {
+      return Math.floor(Math.random() * length);
+    }
+
+    /**
+     * Return an array with random y-axis and x-axis based on height and width of gameboard.
+     */
+  }, {
+    key: "randomCoordination",
+    value: function randomCoordination(board) {
+      var y = this.random(board.height);
+      var x = this.random(board.width);
+      return [y, x];
+    }
+
+    /**
+     * Computer receive a random attack on a given gameboard, puts H if cell is number, X if undefined.
+     * 
+     * @param {Gameboard} board 
+     * @returns {boolean}
+     */
+  }, {
+    key: "computerAttack",
+    value: function computerAttack(board) {
+      if (board === null) return false;
+      var _this$randomCoordinat = this.randomCoordination(board),
+        _this$randomCoordinat2 = _slicedToArray(_this$randomCoordinat, 2),
+        y = _this$randomCoordinat2[0],
+        x = _this$randomCoordinat2[1];
+      console.log(y, x);
+      console.log(y, x);
+      if (board.isAttackOverriding(y, x)) this.computerAttack(board);
+      if (board.isCellNumber(board[y][x])) {
+        board.changeHitsForShip(board[y][x]);
+        board[y][x] = 'H';
+        return true;
+      }
+      if (board.isCellUndefined(board[y][x])) {
+        board[y][x] = 'X';
+        return true;
+      }
+    }
+  }]);
+  return Player;
+}();
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Player);
+
+/***/ }),
+
 /***/ "./src/scripts/gameboard.js":
 /*!**********************************!*\
   !*** ./src/scripts/gameboard.js ***!
@@ -20,6 +113,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
+
+/**
+ * Creates a gameboard for battleship with given height and width.
+ */
 var Gameboard = /*#__PURE__*/function () {
   function Gameboard(height, width) {
     _classCallCheck(this, Gameboard);
@@ -30,6 +127,12 @@ var Gameboard = /*#__PURE__*/function () {
     this.hitShots = 0;
     this.data = new _hashTable_js__WEBPACK_IMPORTED_MODULE_0__["default"]();
   }
+
+  /**
+   * Creates the battleship board everytime is called
+   * 
+   * @returns {Array}
+   */
   _createClass(Gameboard, [{
     key: "_createBoard",
     value: function _createBoard() {
@@ -42,17 +145,144 @@ var Gameboard = /*#__PURE__*/function () {
       }
       return array;
     }
+
+    /**
+     * Check if give coordinates are either horizontal or vertical.
+     * True if horizontal, false if vertical.
+     * 
+     * @param {number} y1 
+     * @param {number} x1 
+     * @param {number} y2 
+     * @param {number} x2 
+     * @returns {boolean}
+     */
   }, {
     key: "_isHorizontal",
     value: function _isHorizontal(y1, x1, y2, x2) {
       if (y1 === y2) return true;
       if (x1 === x2) return false;
     }
+
+    /**
+     * Increment hitShots everytime is called
+     */
+  }, {
+    key: "_increaseHitsShots",
+    value: function _increaseHitsShots() {
+      this.hitShots++;
+    }
+
+    /**
+     * Increment missedShots everytime is called
+     */
+  }, {
+    key: "_increaseMissedShots",
+    value: function _increaseMissedShots() {
+      this.missedShots++;
+    }
+
+    /**
+     * Return true if given cell is undefined (cell has no ship or missed shots), 
+     * false if cell is not undefined (cell has ship or has received attack before)
+     * 
+     * @returns {boolean}
+     */
+  }, {
+    key: "isCellUndefined",
+    value: function isCellUndefined(cell) {
+      return cell === undefined;
+    }
+
+    /**
+     * Check if given ship coordinates are inside gameboard parametres. True if they are, false if not.
+     * 
+     * @param {number} y1 
+     * @param {number} x1 
+     * @param {number} y2 
+     * @param {number} x2 
+     * @returns {boolean}
+     */
+  }, {
+    key: "isCoordinationCorrect",
+    value: function isCoordinationCorrect(y1, x1, y2, x2) {
+      var isCorrect = y1 < this.height && x1 < this.width && y1 >= 0 && x1 >= 0 && y2 < this.height && x2 < this.width && y2 >= 0 && x2 >= 0;
+      return isCorrect;
+    }
+
+    /**
+     * Check if given ship coordinates override another ship coordinates. True if they override, false if not.
+     * 
+     * @param {number} y1  
+     * @param {number} x1 
+     * @param {number} y2 
+     * @param {number} x2 
+     * @returns {boolean}
+     */
+  }, {
+    key: "isOverriding",
+    value: function isOverriding(y1, x1, y2, x2) {
+      var horizontal = this._isHorizontal(y1, x1, y2, x2);
+      if (horizontal) {
+        for (var col = x1; col <= x2; col++) {
+          if (!this.isCellUndefined(this.board[y1][col])) return true;
+        }
+      } else if (!horizontal) {
+        for (var row = y1; row <= y2; row++) {
+          if (!this.isCellUndefined(this.board[row][x1])) return true;
+        }
+      }
+      return false;
+    }
+
+    /**
+     * Return true if attack coordinate is within gameboard, false if it is not.
+     * 
+     * @param {number} y - coordinate in y-axis
+     * @param {number} x - coordinate in x-axis
+     * @returns {boolean}
+     */
+  }, {
+    key: "isAttackWithinBoard",
+    value: function isAttackWithinBoard(y, x) {
+      return y < this.height && x < this.width && y >= 0 && x >= 0;
+    }
+
+    /**
+     * Return true if attack coordinate override previous attack, false if not.
+     * 
+     * @param {number} y - coordinate in y-axis
+     * @param {number} x - coordinate in x-axis
+     * @returns {boolean}
+     */
+  }, {
+    key: "isAttackOverriding",
+    value: function isAttackOverriding(y, x) {
+      return this.board[y][x] === 'X' || this.board[y][x] === 'H';
+    }
+
+    /**
+     * Return true if given cell type is a number, false if it is not a number.
+     * 
+     * @param {number} cell 
+     * @returns {boolean}
+     */
+  }, {
+    key: "isCellNumber",
+    value: function isCellNumber(cell) {
+      return typeof cell === 'number';
+    }
+
+    /**
+     * Gets the correct ship instance and calls hit method. Place that ship instance to the same key and value.
+     * 
+     * @param {number} value 
+     */
   }, {
     key: "changeHitsForShip",
     value: function changeHitsForShip(value) {
       var ship = this.data.getKeyByValue(value);
-      return ship;
+      ship.hit();
+      this.data.map.set(ship, value);
     }
 
     /**
@@ -67,17 +297,17 @@ var Gameboard = /*#__PURE__*/function () {
     value: function receiveAttack(h, w) {
       var y = Gameboard.decrementNumber(h);
       var x = Gameboard.decrementNumber(w);
-      if (y < this.height && x < this.width && y >= 0 && x >= 0) {
-        if (this.board[y][x] === 'X' || this.board[y][x] === 'H') return false;
-        if (typeof this.board[y][x] === 'number') {
-          console.log(this.changeHitsForShip(this.board[y][x]));
+      if (this.isAttackWithinBoard(y, x)) {
+        if (this.isAttackOverriding(y, x)) return false;
+        if (this.isCellNumber(this.board[y][x])) {
+          this.changeHitsForShip(this.board[y][x]);
+          this._increaseHitsShots();
           this.board[y][x] = 'H';
-          this.hitShots++;
           return true;
         }
-        if (this.board[y][x] === undefined) {
+        if (this.isCellUndefined(this.board[y][x])) {
+          this._increaseMissedShots();
           this.board[y][x] = 'X';
-          this.missedShots++;
           return true;
         }
       }
@@ -85,32 +315,15 @@ var Gameboard = /*#__PURE__*/function () {
     }
 
     /**
-     * Decrement a number by 1
+     * Sets the ship to given coordinates in gameboard. True if it is placed, false if something went wrong.
      * 
-     * @param {number} number 
-     * @returns {number} 
+     * @param {Ship} ship 
+     * @param {number} h1 
+     * @param {number} w1 
+     * @param {number} h2 
+     * @param {number} w2 
+     * @returns {boolean}
      */
-  }, {
-    key: "isCoordinationCorrect",
-    value: function isCoordinationCorrect(y1, x1, y2, x2) {
-      var isCorrect = y1 < this.height && x1 < this.width && y1 >= 0 && x1 >= 0 && y2 < this.height && x2 < this.width && y2 >= 0 && x2 >= 0;
-      return isCorrect;
-    }
-  }, {
-    key: "isOverriding",
-    value: function isOverriding(y1, x1, y2, x2) {
-      var horizontal = this._isHorizontal(y1, x1, y2, x2);
-      if (horizontal) {
-        for (var col = x1; col <= x2; col++) {
-          if (this.board[y1][col] !== undefined) return true;
-        }
-      } else if (!horizontal) {
-        for (var row = y1; row <= y2; row++) {
-          if (this.board[row][x1] !== undefined) return true;
-        }
-      }
-      return false;
-    }
   }, {
     key: "shipLocation",
     value: function shipLocation(ship, h1, w1, h2, w2) {
@@ -133,6 +346,29 @@ var Gameboard = /*#__PURE__*/function () {
       }
       return true;
     }
+
+    /**
+     * Check if all the ships have sunk. True if they are, false if there still ships.
+     * 
+     * @returns {boolean}
+     */
+  }, {
+    key: "areAllSunk",
+    value: function areAllSunk() {
+      for (var i = 0; i < this.height; i++) {
+        for (var j = 0; j < this.width; j++) {
+          if (this.isCellNumber(this.board[i][j])) return false;
+        }
+      }
+      return true;
+    }
+
+    /**
+     * Decrement a number by 1
+     * 
+     * @param {number} number 
+     * @returns {number} 
+     */
   }], [{
     key: "decrementNumber",
     value: function decrementNumber(number) {
@@ -168,6 +404,9 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+/**
+ * Hash table data structure that stores the ship as a key and an id as a value.
+ */
 var HashTable = /*#__PURE__*/function () {
   function HashTable() {
     _classCallCheck(this, HashTable);
@@ -194,6 +433,10 @@ var HashTable = /*#__PURE__*/function () {
     value: function getShipId(ship) {
       return this.map.get(ship);
     }
+
+    /**
+     * Returns the key for a given value at hash table data structure, null if value is not found.
+     */
   }, {
     key: "getKeyByValue",
     value: function getKeyByValue(searchValue) {
@@ -238,6 +481,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 
+
+/**
+ * Creates ship instance with a given length.
+ */
 var Ship = /*#__PURE__*/function () {
   function Ship(length) {
     _classCallCheck(this, Ship);
@@ -827,27 +1074,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/main.scss */ "./src/styles/main.scss");
 /* harmony import */ var _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/ship.js */ "./src/scripts/ship.js");
 /* harmony import */ var _scripts_gameboard_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scripts/gameboard.js */ "./src/scripts/gameboard.js");
+/* harmony import */ var _scripts_Player_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./scripts/Player.js */ "./src/scripts/Player.js");
 
 
 
+
+var computerPlayer = new _scripts_Player_js__WEBPACK_IMPORTED_MODULE_3__["default"](8, 8);
 var board = new _scripts_gameboard_js__WEBPACK_IMPORTED_MODULE_2__["default"](6, 6);
 var ship1 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](5);
 var ship2 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](4);
 var ship3 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](3);
-var ship4 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](4);
-var ship5 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](2);
-var ship6 = new _scripts_ship_js__WEBPACK_IMPORTED_MODULE_1__["default"](3);
 board.shipLocation(ship1, 1, 1, 1, 5);
 board.shipLocation(ship2, 1, 6, 4, 6);
 board.shipLocation(ship3, 4, 2, 4, 4);
-board.shipLocation(ship4, 1, 1, 1, 4);
-board.receiveAttack(1, 1);
-board.receiveAttack(1, 2);
-board.receiveAttack(1, 3);
-board.receiveAttack(1, 4);
-console.log(board.receiveAttack(1, 5));
+console.log(computerPlayer.computerAttack(board));
+console.log(computerPlayer.computerAttack(board));
+console.log(computerPlayer.computerAttack(board));
+console.log(computerPlayer.computerAttack(board));
+console.log(computerPlayer.computerAttack(board));
+console.log(computerPlayer.computerAttack(board));
+console.log(board.missedShots);
+console.log(board.hitShots);
+var computerBoard = computerPlayer.computerShips();
+console.log(computerBoard.receiveAttack(2, 4));
+console.log(computerBoard.receiveAttack(1, 2));
+console.log(computerBoard.receiveAttack(6, 8));
+console.log(computerBoard.receiveAttack(8, 1));
+console.log(computerBoard.receiveAttack(3, 5));
+console.log(computerBoard.receiveAttack(4, 4));
 })();
 
 /******/ })()
 ;
-//# sourceMappingURL=bundlece08f47f7e2c8c9cfd3e.js.map
+//# sourceMappingURL=bundle9d543dcf8cd51be773a7.js.map
