@@ -10,10 +10,47 @@
 </head>
 
 <body>
-  <div class="container">
-    <h3>Don't laugh challenge</h3>
-    <div id="joke" class="joke"></div>
-    <button id="jokeBtn" class="btn">Get another joke</button>
+  <div id="info">
+    Place The Ships
+  </div>
+
+  <div class="gameBoards-container"></div>
+
+  <div class="input-ships">
+    <h3>Place: Destroyer (length: 2)</h3>
+    <div id="coordinates-container">
+      <div id="startC-container" class="input-container">
+        <p>Start:</p>
+        <div>
+          <div class="x-container container">
+            <label for="start-x">X</label>
+            <input type="number" id="start-x" name="start-x" class="input">
+          </div>
+          <div class="y-container container">
+            <label for="start-y">Y</label>
+            <input type="number" id="start-y" name="start-x" class="input">
+          </div>
+        </div>
+      </div>
+
+      <div id="endC-container" class="input-container">
+        <p>End:</p>
+        <div>
+          <div class="x-container container">
+            <label for="end-x">X</label>
+            <input type="number" id="end-x" name="end-x" class="input">
+          </div>
+          <div class="y-container container">
+            <label for="end-y">Y</label>
+            <input type="number" id="end-y" name="end-y" class="input">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="play-container">
+    <button type="button">PLAY</button>
   </div>
 
 </body>

@@ -1,0 +1,10 @@
+@mixin displayFlex($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+@mixin shipHeightColor() {
+  height: 36px;
+  background-color: black;
+  transition: 0.3s;
+}

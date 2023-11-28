@@ -1,3 +1,94 @@
-h2 {
-  color:aqua;
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+@import 'variables';
+@import 'mixins';
+
+* {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  box-sizing: border-box;
+  font-family: 'Lato', sans-serif;
+}
+
+#info {
+  padding: 1.4rem 0rem;
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: $text-color;
+}
+
+.input-ships {
+  @include displayFlex(column);
+  gap: 12px;
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: $text-color;
+  }
+
+  #coordinates-container {
+    @include displayFlex(column);
+    gap: 12px;
+
+    .input-container {
+      @include displayFlex(row);
+      
+      p {
+        font-size: 1.1rem;
+        width: 60px;
+      }
+
+      > div {
+        @include displayFlex(row);
+        gap: 16px;
+
+        .container {
+          @include displayFlex(row);
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          color: $text-color;
+
+          input {
+            width: 50px;
+            outline: transparent;
+            border: 1px solid black;
+            border-radius: 4px;
+          }
+          input:focus {
+            border: 1px solid $text-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+.play-container {
+  width: 100%;
+  @include displayFlex(row);
+  justify-content: center;
+  align-items: center;
+
+  button {
+    padding: 0.6rem 2.4rem;
+    font-size: 1.4rem;
+    border-radius: 6px;
+    border: none;
+    background-color: $text-color;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+    letter-spacing: 2px;
+  }
+  button:hover {
+    background-color: $white-grey-color;
+    color: black;
+  }
+  button:active {
+    font-size: 1.3rem;
+  }
 }

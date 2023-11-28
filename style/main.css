@@ -1,0 +1,89 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  box-sizing: border-box;
+  font-family: "Lato", sans-serif;
+}
+
+#info {
+  padding: 1.4rem 0rem;
+  text-align: center;
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: rgb(226, 71, 71);
+}
+
+.input-ships {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.input-ships h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: rgb(226, 71, 71);
+}
+.input-ships #coordinates-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.input-ships #coordinates-container .input-container {
+  display: flex;
+  flex-direction: row;
+}
+.input-ships #coordinates-container .input-container p {
+  font-size: 1.1rem;
+  width: 60px;
+}
+.input-ships #coordinates-container .input-container > div {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+.input-ships #coordinates-container .input-container > div .container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: rgb(226, 71, 71);
+}
+.input-ships #coordinates-container .input-container > div .container input {
+  width: 50px;
+  outline: transparent;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+.input-ships #coordinates-container .input-container > div .container input:focus {
+  border: 1px solid rgb(226, 71, 71);
+}
+
+.play-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.play-container button {
+  padding: 0.6rem 2.4rem;
+  font-size: 1.4rem;
+  border-radius: 6px;
+  border: none;
+  background-color: rgb(226, 71, 71);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+  letter-spacing: 2px;
+}
+.play-container button:hover {
+  background-color: rgb(238, 238, 238);
+  color: black;
+}
+.play-container button:active {
+  font-size: 1.3rem;
+}
