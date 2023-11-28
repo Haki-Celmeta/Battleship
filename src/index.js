@@ -1,40 +1,75 @@
 import './styles/main.scss';
-import Ship from './scripts/ship.js';
-import Gameboard from './scripts/gameboard.js';
-import Player from './scripts/Player.js';
+import { renderPlayer } from "./scripts/renderPlayer";
+import { renderBot, myBotBoard, botBoard } from "./scripts/renderBot";
+import { Gameboard } from "./scripts/Gameboard";
+import { declareWinner } from "./scripts/declareWinner";
 
-const computerPlayer = new Player(10, 10);
-const board = new Gameboard(10, 10);
+renderPlayer();
+renderBot();
 
-const ship1 = new Ship(5);
-const ship2 = new Ship(4);
-const ship3 = new Ship(3);
+let playerWin, botWin;
 
-// board.shipLocation(ship1, 7, 8, 10, 8);
-// board.shipLocation(ship2, 1, 6, 4, 6);
-// board.shipLocation(ship3, 4, 2, 4, 4);
-// console.log(board.isOverriding(9, 5, 9, 6));
+function Turn() {
 
-// console.log(computerPlayer.computerAttack(board));
-// console.log(computerPlayer.computerAttack(board));
-// console.log(computerPlayer.computerAttack(board));
-// console.log(computerPlayer.computerAttack(board));
-// console.log(computerPlayer.computerAttack(board));
-// console.log(computerPlayer.computerAttack(board));
-// console.log(board.missedShots);
-// console.log(board.hitShots);
-// console.log(board);
+  let playerIndex, playerBoard = Gameboard(), myBoard = playerBoard.randomPlacement();
+  const player = document.querySelector('.player');
+  const bot = document.querySelector('.bot');
 
-const computerBoard = computerPlayer.computerShips();
-console.log(computerBoard);
+  player.addEventListener('click', function (e) {
+    if (e.target.dataset.index) {
+      playerIndex = e.target.dataset.index;
+      let res = playerBoard.receiveAttack(myBoard, playerIndex);
+      if (res === 1) {
+        e.target.classList.add('miss');
+      } else if (res === 6) {
+        e.target.classList.add('hit');
+        playerWin = playerBoard.allSunk(myBoard);
 
-// console.log(computerBoard.receiveAttack(2, 4));
-// console.log(computerBoard.receiveAttack(1, 2));
-// console.log(computerBoard.receiveAttack(6, 8));
-// console.log(computerBoard.receiveAttack(8, 1));
-// console.log(computerBoard.receiveAttack(3, 5));
-// console.log(computerBoard.receiveAttack(4, 4));
-// console.log(computerBoard.receiveAttack(10, 9));
-// console.log(computerBoard.receiveAttack(1, 1));
-// console.log(computerBoard.receiveAttack(0, 2));
-// console.log(computerBoard.receiveAttack(11, 7));
+        if (playerWin) {
+          window.setTimeout(
+            () => {
+              declareWinner("Game over. You won!!!");
+            }, 1000
+          )
+        }
+        return;
+      } else {
+        return;
+      }
+
+
+      let botIndex = Math.floor(Math.random() * 100);
+      let clicked = bot.querySelector(`[data-index='${botIndex}']`);
+      let botres;
+      window.setTimeout(() => {
+        for (let i = 0; i < 100; i++) {
+          botres = botBoard.receiveAttack(myBotBoard, botIndex);
+          if (botres === 1) {
+            clicked.classList.add('miss');
+            break;
+          } else if (botres === 6) {
+            clicked.classList.add('hit');
+            botWin = botBoard.allSunk(myBotBoard);
+            if (botWin) {
+              window.setTimeout(
+                () => {
+                  declareWinner("Game over. Bot won!!!");
+                }, 1000
+              )
+            }
+          } else {
+            ++botIndex;
+            clicked = bot.querySelector(`[data-index='${botIndex}']`);
+          }
+        }
+
+      }
+        , 1000
+      )
+
+
+    }
+  })
+}
+
+Turn();

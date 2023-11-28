@@ -1,89 +1,129 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap");
-* {
+body {
+  min-height: 100%;
+  max-height: 100vh;
   margin: 0;
-  padding: 0;
-  font-size: inherit;
-  font-weight: inherit;
-  box-sizing: border-box;
-  font-family: "Lato", sans-serif;
+  background-color: #bdbc67;
 }
 
-#info {
-  padding: 1.4rem 0rem;
+.heading {
+  color: #fff;
   text-align: center;
   font-size: 2.4rem;
-  font-weight: 900;
-  color: rgb(226, 71, 71);
+  margin: 60px 0 0 0;
 }
 
-.input-ships {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.input-ships h3 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: rgb(226, 71, 71);
-}
-.input-ships #coordinates-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.input-ships #coordinates-container .input-container {
-  display: flex;
-  flex-direction: row;
-}
-.input-ships #coordinates-container .input-container p {
-  font-size: 1.1rem;
-  width: 60px;
-}
-.input-ships #coordinates-container .input-container > div {
-  display: flex;
-  flex-direction: row;
-  gap: 16px;
-}
-.input-ships #coordinates-container .input-container > div .container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: rgb(226, 71, 71);
-}
-.input-ships #coordinates-container .input-container > div .container input {
-  width: 50px;
-  outline: transparent;
-  border: 1px solid black;
-  border-radius: 4px;
-}
-.input-ships #coordinates-container .input-container > div .container input:focus {
-  border: 1px solid rgb(226, 71, 71);
+.tag {
+  text-align: center;
+  color: #fff;
+  margin: 0;
 }
 
-.play-container {
+.player, .bot {
+  height: 450px;
+  width: 450px;
+  margin: auto;
+  /* background: gray; */
+}
+
+.box, .bot-box {
+  height: 40px;
+  width: 40px;
+  margin: 0 5px 5px 0;
+  border: 0;
+}
+
+.box:focus, .bot-box:focus {
+  outline: 0;
+  border: 0;
+}
+
+.container {
+  padding: 50px;
+}
+
+.hit::before {
+  background-color: transparent !important;
+  content: "💥" !important;
+  font-size: 35px;
+}
+
+.hit {
+  background-color: transparent !important;
+  margin-bottom: -5px;
+}
+
+.hit::after {
+  margin-bottom: -5px;
+}
+
+.miss {
+  background-color: gray;
+}
+
+.regant {
+  background-color: maroon;
+}
+
+.galaxy {
+  background-color: maroon;
+}
+
+.summit {
+  background-color: maroon;
+}
+
+.edge {
+  background-color: maroon;
+}
+
+.oasis {
+  background-color: maroon;
+}
+
+.flex {
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  color: #fff;
+}
+
+.pop {
+  display: none;
+  position: absolute;
+  background: green;
+  color: #fff;
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  top: 30%;
+  margin: 0 auto;
+  opacity: 0.5;
+  height: 300px;
+  text-align: center;
 }
-.play-container button {
-  padding: 0.6rem 2.4rem;
-  font-size: 1.4rem;
-  border-radius: 6px;
-  border: none;
-  background-color: rgb(226, 71, 71);
-  color: white;
-  cursor: pointer;
-  transition: 0.2s;
-  letter-spacing: 2px;
+
+.text {
+  font-size: 30px;
+  margin-top: 30px;
+  color: #fff;
 }
-.play-container button:hover {
-  background-color: rgb(238, 238, 238);
-  color: black;
+
+.computer, .human {
+  width: 50%;
+  text-align: center;
 }
-.play-container button:active {
-  font-size: 1.3rem;
+
+@media only screen and (min-width: 1000px) {
+  .bot {
+    float: right;
+    margin-top: -20px;
+  }
+  .player {
+    float: left;
+  }
+  .container {
+    overflow: hidden;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
 }

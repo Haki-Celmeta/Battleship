@@ -10,49 +10,25 @@
 </head>
 
 <body>
-  <div id="info">
-    Place The Ships
-  </div>
-
-  <div class="gameBoards-container"></div>
-
-  <div class="input-ships">
-    <h3>Place: Destroyer (length: 2)</h3>
-    <div id="coordinates-container">
-      <div id="startC-container" class="input-container">
-        <p>Start:</p>
-        <div>
-          <div class="x-container container">
-            <label for="start-x">X</label>
-            <input type="number" id="start-x" name="start-x" class="input">
-          </div>
-          <div class="y-container container">
-            <label for="start-y">Y</label>
-            <input type="number" id="start-y" name="start-x" class="input">
-          </div>
-        </div>
+  <header>
+    <h2 class="heading">BATTLESHIPS</h2>
+    <div class="flex">
+      <div class="computer">
+        <h3>Computer</h3>
       </div>
-
-      <div id="endC-container" class="input-container">
-        <p>End:</p>
-        <div>
-          <div class="x-container container">
-            <label for="end-x">X</label>
-            <input type="number" id="end-x" name="end-x" class="input">
-          </div>
-          <div class="y-container container">
-            <label for="end-y">Y</label>
-            <input type="number" id="end-y" name="end-y" class="input">
-          </div>
-        </div>
+      <div class="human">
+        <h3>Human</h3>
       </div>
     </div>
+  </header>
+  ​ <div id="winner-pop" class="pop">
+    <div class="text"></div>
   </div>
-
-  <div class="play-container">
-    <button type="button">PLAY</button>
+  <div class="container">
+    <div class="player"></div>
+    <br>
+    <div class="bot"></div>
   </div>
-
 </body>
 
 </html>
